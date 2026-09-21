@@ -176,12 +176,12 @@ Sonatype Central 的 artifact 页面不是自定义官网，它主要根据你�
 
 <issueManagement>
   <system>GitHub Issues</system>
-  <url>https://github.com/sonofmagic/javachanges/issues</url>
+  <url>https://github.com/icelib/javachanges/issues</url>
 </issueManagement>
 
 <ciManagement>
   <system>GitHub Actions</system>
-  <url>https://github.com/sonofmagic/javachanges/actions</url>
+  <url>https://github.com/icelib/javachanges/actions</url>
 </ciManagement>
 ```
 

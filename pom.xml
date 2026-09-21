@@ -72,17 +72,17 @@
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/sonofmagic/javachanges/issues</url>
+        <url>https://github.com/icelib/javachanges/issues</url>
     </issueManagement>
 
     <ciManagement>
         <system>GitHub Actions</system>
-        <url>https://github.com/sonofmagic/javachanges/actions</url>
+        <url>https://github.com/icelib/javachanges/actions</url>
     </ciManagement>
 
     <scm>
-        <connection>scm:git:https://github.com/sonofmagic/javachanges.git</connection>
-        <developerConnection>scm:git:git@github.com:sonofmagic/javachanges.git</developerConnection>
+        <connection>scm:git:https://github.com/icelib/javachanges.git</connection>
+        <developerConnection>scm:git:git@github.com:icelib/javachanges.git</developerConnection>
         <url>https://github.com/sonofmagic/javachanges</url>
         <tag>HEAD</tag>
     </scm>
