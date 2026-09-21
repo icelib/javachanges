@@ -11,7 +11,7 @@
 
     <name>javachanges</name>
     <description>Java Changesets for Maven repositories and release-plan workflows.</description>
-    <url>https://github.com/sonofmagic/javachanges</url>
+    <url>https://github.com/icelib/javachanges</url>
     <inceptionYear>2026</inceptionYear>
 
     <organization>
@@ -71,18 +71,18 @@
 
     <issueManagement>
         <system>GitHub Issues</system>
-        <url>https://github.com/sonofmagic/javachanges/issues</url>
+        <url>https://github.com/icelib/javachanges/issues</url>
     </issueManagement>
 
     <ciManagement>
         <system>GitHub Actions</system>
-        <url>https://github.com/sonofmagic/javachanges/actions</url>
+        <url>https://github.com/icelib/javachanges/actions</url>
     </ciManagement>
 
     <scm>
-        <connection>scm:git:https://github.com/sonofmagic/javachanges.git</connection>
-        <developerConnection>scm:git:git@github.com:sonofmagic/javachanges.git</developerConnection>
-        <url>https://github.com/sonofmagic/javachanges</url>
+        <connection>scm:git:https://github.com/icelib/javachanges.git</connection>
+        <developerConnection>scm:git:git@github.com:icelib/javachanges.git</developerConnection>
+        <url>https://github.com/icelib/javachanges</url>
         <tag>HEAD</tag>
     </scm>
 

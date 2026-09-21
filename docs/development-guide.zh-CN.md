@@ -109,7 +109,7 @@ mvn -v
 ### 4.1 克隆仓库
 
 ```bash
-git clone https://github.com/sonofmagic/javachanges.git
+git clone https://github.com/icelib/javachanges.git
 cd javachanges
 ```
 
@@ -200,7 +200,7 @@ mvn io.github.sonofmagic:javachanges:__JAVACHANGES_CURRENT_SNAPSHOT_VERSION__:ad
 
 当前 CLI 入口类是：
 
-- [src/main/java/io/github/sonofmagic/javachanges/core/cli/JavaChangesCli.java](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/cli/JavaChangesCli.java)
+- [src/main/java/io/github/sonofmagic/javachanges/core/cli/JavaChangesCli.java](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/cli/JavaChangesCli.java)
 
 如果你使用 IntelliJ IDEA 或 VS Code，也可以直接以这个类作为运行入口进行调试。
 
@@ -381,7 +381,7 @@ mvn -q -DskipTests compile exec:java -Dexec.args="status --directory /path/to/yo
 | --- | --- |
 | 安装本机依赖 | `brew install --cask corretto@8 && brew install maven` |
 | 验证环境 | `java -version && mvn -v` |
-| 拉取项目 | `git clone https://github.com/sonofmagic/javachanges.git` |
+| 拉取项目 | `git clone https://github.com/icelib/javachanges.git` |
 | 首次构建 | `mvn -q test` |
 | 进入开发模式 | `mvn -q -DskipTests compile exec:java -Dexec.args="status --directory /path/to/your/repo"` |
 
@@ -393,6 +393,6 @@ mvn -q -DskipTests compile exec:java -Dexec.args="status --directory /path/to/yo
 | Maven 运行文档 | https://maven.apache.org/run.html |
 | Amazon Corretto 8 下载 | https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html |
 | Amazon Corretto 8 macOS 安装 | https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/macos-install.html |
-| 项目说明 | [README.md](https://github.com/sonofmagic/javachanges/blob/main/README.md) |
+| 项目说明 | [README.md](https://github.com/icelib/javachanges/blob/main/README.md) |
 | 快速开始 | [docs/getting-started.md](./getting-started.md) |
 | 故障排查 | [docs/troubleshooting-guide.md](./troubleshooting-guide.md) |

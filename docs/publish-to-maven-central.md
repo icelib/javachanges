@@ -172,12 +172,12 @@ A representative metadata block looks like this:
 
 <issueManagement>
   <system>GitHub Issues</system>
-  <url>https://github.com/sonofmagic/javachanges/issues</url>
+  <url>https://github.com/icelib/javachanges/issues</url>
 </issueManagement>
 
 <ciManagement>
   <system>GitHub Actions</system>
-  <url>https://github.com/sonofmagic/javachanges/actions</url>
+  <url>https://github.com/icelib/javachanges/actions</url>
 </ciManagement>
 ```
 

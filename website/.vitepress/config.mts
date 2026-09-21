@@ -5,7 +5,7 @@ import type Token from 'markdown-it/lib/token.mjs'
 import { defineConfigWithTheme } from 'vitepress'
 import type { DefaultTheme } from 'vitepress'
 
-const repoUrl = 'https://github.com/sonofmagic/javachanges'
+const repoUrl = 'https://github.com/icelib/javachanges'
 const docsDir = resolve(fileURLToPath(new URL('../../docs', import.meta.url)))
 const pomPath = resolve(fileURLToPath(new URL('../../pom.xml', import.meta.url)))
 const changelogPath = resolve(fileURLToPath(new URL('../../CHANGELOG.md', import.meta.url)))

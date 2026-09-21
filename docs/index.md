@@ -15,7 +15,7 @@ hero:
       link: /getting-started
     - theme: alt
       text: GitHub
-      link: https://github.com/sonofmagic/javachanges
+      link: https://github.com/icelib/javachanges
 features:
   - title: File-based release intent
     details: Keep release intent in versioned `.changesets/*.md` files using an official Changesets-style package map instead of ad-hoc spreadsheets or chat messages.

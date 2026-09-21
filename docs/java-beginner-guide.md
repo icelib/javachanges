@@ -31,8 +31,8 @@ Recommended order:
 
 Representative files:
 
-- [`core/PublishSupport.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishSupport.java)
-- [`core/ReleasePlanner.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanner.java)
+- [`core/PublishSupport.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishSupport.java)
+- [`core/ReleasePlanner.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanner.java)
 
 Typical pattern:
 
@@ -83,8 +83,8 @@ The rule of thumb here is simple:
 
 Examples:
 
-- [`core/ReleaseUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseUtils.java)
-- [`core/ReleaseTextUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTextUtils.java)
+- [`core/ReleaseUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseUtils.java)
+- [`core/ReleaseTextUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTextUtils.java)
 
 Typical shape:
 
@@ -103,7 +103,7 @@ final class ReleaseTextUtils {
 
 See:
 
-- [`core/MavenCommandModels.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/MavenCommandModels.java)
+- [`core/MavenCommandModels.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/MavenCommandModels.java)
 
 `MavenCommandProbe` is a small example of defining capability first and implementation second.
 
@@ -111,7 +111,7 @@ See:
 
 See:
 
-- [`core/ReleaseTypes.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTypes.java)
+- [`core/ReleaseTypes.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTypes.java)
 
 Key enums:
 
@@ -138,8 +138,8 @@ Common exception types in this project:
 
 Representative files:
 
-- [`core/ChangesetFileSupport.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ChangesetFileSupport.java)
-- [`core/ReleasePlanFiles.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanFiles.java)
+- [`core/ChangesetFileSupport.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ChangesetFileSupport.java)
+- [`core/ReleasePlanFiles.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanFiles.java)
 
 | API | Purpose |
 | --- | --- |
@@ -181,8 +181,8 @@ Typical tasks:
 
 Representative files:
 
-- [`core/ReleaseProcessUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseProcessUtils.java)
-- [`core/PublishRuntime.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishRuntime.java)
+- [`core/ReleaseProcessUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseProcessUtils.java)
+- [`core/PublishRuntime.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishRuntime.java)
 
 This project uses `ProcessBuilder` to run tools like `git`, `mvn`, `gh`, and `glab`.
 
@@ -211,7 +211,7 @@ This project uses `ProcessBuilder` to run tools like `git`, `mvn`, `gh`, and `gl
 
 The Maven plugin implementation lives in:
 
-- [`src/main/java/io/github/sonofmagic/javachanges/maven`](https://github.com/sonofmagic/javachanges/tree/main/src/main/java/io/github/sonofmagic/javachanges/maven)
+- [`src/main/java/io/github/sonofmagic/javachanges/maven`](https://github.com/icelib/javachanges/tree/main/src/main/java/io/github/sonofmagic/javachanges/maven)
 
 Simple mapping:
 
@@ -226,7 +226,7 @@ Simple mapping:
 
 Main entrypoint:
 
-- [`core/JavaChangesCli.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java)
+- [`core/JavaChangesCli.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java)
 
 Typical flow:
 
@@ -253,8 +253,8 @@ Key annotations:
 
 Representative tests:
 
-- [`src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java`](https://github.com/sonofmagic/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java)
-- [`src/test/java/io/github/sonofmagic/javachanges/maven/JavaChangesMavenPluginSupportTest.java`](https://github.com/sonofmagic/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/maven/JavaChangesMavenPluginSupportTest.java)
+- [`src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java`](https://github.com/icelib/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java)
+- [`src/test/java/io/github/sonofmagic/javachanges/maven/JavaChangesMavenPluginSupportTest.java`](https://github.com/icelib/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/maven/JavaChangesMavenPluginSupportTest.java)
 
 Important testing ideas:
 

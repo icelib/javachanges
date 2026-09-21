@@ -109,7 +109,7 @@ mvn -v
 ### 4.1 Clone the repository
 
 ```bash
-git clone https://github.com/sonofmagic/javachanges.git
+git clone https://github.com/icelib/javachanges.git
 cd javachanges
 ```
 
@@ -192,7 +192,7 @@ mvn io.github.sonofmagic:javachanges:__JAVACHANGES_CURRENT_SNAPSHOT_VERSION__:ad
 
 The current CLI entry class is:
 
-- [src/main/java/io/github/sonofmagic/javachanges/core/cli/JavaChangesCli.java](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/cli/JavaChangesCli.java)
+- [src/main/java/io/github/sonofmagic/javachanges/core/cli/JavaChangesCli.java](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/cli/JavaChangesCli.java)
 
 You can also run or debug this class directly in IntelliJ IDEA or VS Code.
 
@@ -371,7 +371,7 @@ Shortest path:
 | --- | --- |
 | Install local dependencies | `brew install --cask corretto@8 && brew install maven` |
 | Verify environment | `java -version && mvn -v` |
-| Clone the project | `git clone https://github.com/sonofmagic/javachanges.git` |
+| Clone the project | `git clone https://github.com/icelib/javachanges.git` |
 | Initial build | `mvn -q test` |
 | Enter development mode | `mvn -q -DskipTests compile exec:java -Dexec.args="status --directory /path/to/your/repo"` |
 
@@ -383,6 +383,6 @@ Shortest path:
 | Maven run docs | https://maven.apache.org/run.html |
 | Amazon Corretto 8 downloads | https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/downloads-list.html |
 | Amazon Corretto 8 macOS install | https://docs.aws.amazon.com/corretto/latest/corretto-8-ug/macos-install.html |
-| Project overview | [README.md](https://github.com/sonofmagic/javachanges/blob/main/README.md) |
+| Project overview | [README.md](https://github.com/icelib/javachanges/blob/main/README.md) |
 | Getting started | [getting-started.md](./getting-started.md) |
 | Troubleshooting | [troubleshooting-guide.md](./troubleshooting-guide.md) |

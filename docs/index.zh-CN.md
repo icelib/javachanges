@@ -15,7 +15,7 @@ hero:
       link: /zh-CN/getting-started
     - theme: alt
       text: GitHub
-      link: https://github.com/sonofmagic/javachanges
+      link: https://github.com/icelib/javachanges
 features:
   - title: 文件驱动的发布意图
     details: 用官方 Changesets 风格的 `.changesets/*.md` package map 记录发布内容，而不是散落在表格、聊天或脚本里。

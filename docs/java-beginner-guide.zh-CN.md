@@ -39,9 +39,9 @@
 
 例如：
 
-- [`core/PublishSupport.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishSupport.java)
-- [`core/ReleasePlanner.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanner.java)
-- [`core/ReleaseNotesGenerator.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseNotesGenerator.java)
+- [`core/PublishSupport.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishSupport.java)
+- [`core/ReleasePlanner.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanner.java)
+- [`core/ReleaseNotesGenerator.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseNotesGenerator.java)
 
 典型结构是：
 
@@ -94,7 +94,7 @@ final class ReleasePlanner {
 
 例如：
 
-- [`core/JavaChangesCli.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java) 是 `public final class`
+- [`core/JavaChangesCli.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java) 是 `public final class`
 - 很多 support / planner / parser 类只是包内可见
 
 这说明一个重要的 Java 设计习惯：
@@ -105,10 +105,10 @@ final class ReleasePlanner {
 
 这个项目里有很多工具类：
 
-- [`core/ReleaseUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseUtils.java)
-- [`core/ReleaseTextUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTextUtils.java)
-- [`core/ReleaseJsonUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseJsonUtils.java)
-- [`core/ReleaseProcessUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseProcessUtils.java)
+- [`core/ReleaseUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseUtils.java)
+- [`core/ReleaseTextUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTextUtils.java)
+- [`core/ReleaseJsonUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseJsonUtils.java)
+- [`core/ReleaseProcessUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseProcessUtils.java)
 
 它们通常长这样：
 
@@ -135,7 +135,7 @@ final class ReleaseTextUtils {
 
 接口在这个项目里不是最多的，但有非常好的入门例子：
 
-- [`core/MavenCommandModels.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/MavenCommandModels.java)
+- [`core/MavenCommandModels.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/MavenCommandModels.java)
 
 你可以重点看：
 
@@ -154,7 +154,7 @@ final class ReleaseTextUtils {
 
 这个项目里非常适合学习枚举：
 
-- [`core/ReleaseTypes.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTypes.java)
+- [`core/ReleaseTypes.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTypes.java)
 
 里面有：
 
@@ -197,9 +197,9 @@ final class ReleaseTextUtils {
 
 典型文件：
 
-- [`core/ChangesetFileSupport.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ChangesetFileSupport.java)
-- [`core/ReleasePlanFiles.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanFiles.java)
-- [`core/MavenSettingsWriter.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/MavenSettingsWriter.java)
+- [`core/ChangesetFileSupport.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ChangesetFileSupport.java)
+- [`core/ReleasePlanFiles.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanFiles.java)
+- [`core/MavenSettingsWriter.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/MavenSettingsWriter.java)
 
 常见 API：
 
@@ -254,8 +254,8 @@ final class ReleaseTextUtils {
 
 推荐重点看：
 
-- [`core/ReleaseTextUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTextUtils.java)
-- [`core/ReleasePlan.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlan.java)
+- [`core/ReleaseTextUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseTextUtils.java)
+- [`core/ReleasePlan.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlan.java)
 
 ### 4.4 正则表达式
 
@@ -293,9 +293,9 @@ final class ReleaseTextUtils {
 
 典型文件：
 
-- [`core/ReleaseProcessUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseProcessUtils.java)
-- [`core/PublishRuntime.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishRuntime.java)
-- [`core/GitlabReleaseRuntime.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/GitlabReleaseRuntime.java)
+- [`core/ReleaseProcessUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseProcessUtils.java)
+- [`core/PublishRuntime.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishRuntime.java)
+- [`core/GitlabReleaseRuntime.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/GitlabReleaseRuntime.java)
 
 你应该掌握：
 
@@ -321,8 +321,8 @@ final class ReleaseTextUtils {
 
 推荐结合这些文件一起看：
 
-- [`core/JavaChangesCli.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java)
-- [`src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java`](https://github.com/sonofmagic/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java)
+- [`core/JavaChangesCli.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java)
+- [`src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java`](https://github.com/icelib/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java)
 
 ## 5. 这个项目里最重要的 Maven 知识点
 
@@ -407,7 +407,7 @@ mvn javachanges:status
 
 这个项目的 Maven Plugin 代码主要在：
 
-- [`src/main/java/io/github/sonofmagic/javachanges/maven`](https://github.com/sonofmagic/javachanges/tree/main/src/main/java/io/github/sonofmagic/javachanges/maven)
+- [`src/main/java/io/github/sonofmagic/javachanges/maven`](https://github.com/icelib/javachanges/tree/main/src/main/java/io/github/sonofmagic/javachanges/maven)
 
 例如：
 
@@ -428,7 +428,7 @@ mvn javachanges:status
 
 CLI 主入口：
 
-- [`core/JavaChangesCli.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java)
+- [`core/JavaChangesCli.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java)
 
 你可以从这里学到一个非常标准的 Java CLI 入口模型：
 
@@ -482,8 +482,8 @@ RepoFiles / ReleasePlanner / PublishSupport / ...
 
 测试文件：
 
-- [`src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java`](https://github.com/sonofmagic/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java)
-- [`src/test/java/io/github/sonofmagic/javachanges/maven/JavaChangesMavenPluginSupportTest.java`](https://github.com/sonofmagic/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/maven/JavaChangesMavenPluginSupportTest.java)
+- [`src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java`](https://github.com/icelib/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/core/JavaChangesCliTest.java)
+- [`src/test/java/io/github/sonofmagic/javachanges/maven/JavaChangesMavenPluginSupportTest.java`](https://github.com/icelib/javachanges/blob/main/src/test/java/io/github/sonofmagic/javachanges/maven/JavaChangesMavenPluginSupportTest.java)
 
 你应该重点学：
 
@@ -545,12 +545,12 @@ RepoFiles / ReleasePlanner / PublishSupport / ...
 
 如果你想练语法和标准库，建议按这个顺序：
 
-1. [`core/JavaChangesCli.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java)
-2. [`core/GeneralCommands.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/GeneralCommands.java)
-3. [`core/ChangesetParser.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ChangesetParser.java)
-4. [`core/ReleasePlanner.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanner.java)
-5. [`core/PublishSupport.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishSupport.java)
-6. [`core/ReleaseProcessUtils.java`](https://github.com/sonofmagic/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseProcessUtils.java)
+1. [`core/JavaChangesCli.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/JavaChangesCli.java)
+2. [`core/GeneralCommands.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/GeneralCommands.java)
+3. [`core/ChangesetParser.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ChangesetParser.java)
+4. [`core/ReleasePlanner.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleasePlanner.java)
+5. [`core/PublishSupport.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/PublishSupport.java)
+6. [`core/ReleaseProcessUtils.java`](https://github.com/icelib/javachanges/blob/main/src/main/java/io/github/sonofmagic/javachanges/core/ReleaseProcessUtils.java)
 
 ### 8.2 初学者练习题
 
