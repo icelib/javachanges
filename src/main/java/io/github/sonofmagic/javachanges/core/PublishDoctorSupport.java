@@ -246,7 +246,7 @@ public final class PublishDoctorSupport {
                 "Run doctor-publish inside a Git checkout, or pass --allow-dirty true only for an intentional unpacked-source check.");
             return;
         }
-        CommandResult status = ReleaseProcessUtils.runCapture(repoRoot, "git", "status", "--porcelain");
+        CommandResult status = new PublishRuntime(repoRoot).worktreeStatus();
         if (status.exitCode != 0) {
             String message = ReleaseTextUtils.trimToNull(status.stderrText());
             report.failed("Git", "worktree", message == null ? ReleaseMessages.gitCommandFailed() : message,

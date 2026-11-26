@@ -5,6 +5,7 @@ import io.github.sonofmagic.javachanges.core.changeset.ChangesetFileSupport;
 import io.github.sonofmagic.javachanges.core.config.ChangesetConfigSupport;
 import io.github.sonofmagic.javachanges.core.plan.ReleasePlan;
 import io.github.sonofmagic.javachanges.core.plan.ReleasePlanner;
+import io.github.sonofmagic.javachanges.core.publish.PublishRuntime;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -96,7 +97,7 @@ final class RepoValidationSupport {
     }
 
     private static void checkDirtyWorktree(Path repoRoot, Report report) throws IOException, InterruptedException {
-        CommandResult result = ReleaseProcessUtils.runCapture(repoRoot, "git", "status", "--porcelain");
+        CommandResult result = new PublishRuntime(repoRoot).worktreeStatus();
         if (result.exitCode != 0) {
             report.error("WORKTREE", result.stderrText().trim(), null);
             return;

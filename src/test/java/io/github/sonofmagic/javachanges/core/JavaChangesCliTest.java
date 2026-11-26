@@ -919,6 +919,74 @@ class JavaChangesCliTest {
     }
 
     @Test
+    void validateCheckDirtyIgnoresUntrackedMavenRepositoryCache(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = createRepository(tempDir, true);
+        commitAll(repoRoot);
+        Path cachedArtifact = repoRoot.resolve(".m2/repository/io/example/dependency.jar");
+        Files.createDirectories(cachedArtifact.getParent());
+        Files.write(cachedArtifact, "cached".getBytes(StandardCharsets.UTF_8));
+        Map<String, String> environment = new LinkedHashMap<String, String>();
+        environment.put("MAVEN_OPTS", "-Dmaven.repo.local=.m2/repository");
+
+        ExecutionResult result = executeProcess(environment,
+            "validate", "--directory", repoRoot.toString(), "--check-dirty", "true");
+
+        assertEquals(0, result.exitCode, result.stdout + result.stderr);
+    }
+
+    @Test
+    void validateCheckDirtyStillReportsUntrackedMavenSettings(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = createRepository(tempDir, true);
+        commitAll(repoRoot);
+        Path cachedArtifact = repoRoot.resolve(".m2/repository/io/example/dependency.jar");
+        Files.createDirectories(cachedArtifact.getParent());
+        Files.write(cachedArtifact, "cached".getBytes(StandardCharsets.UTF_8));
+        Files.write(repoRoot.resolve(".m2/settings.xml"), "<settings/>".getBytes(StandardCharsets.UTF_8));
+        Map<String, String> environment = new LinkedHashMap<String, String>();
+        environment.put("MAVEN_OPTS", "-Dmaven.repo.local=.m2/repository");
+
+        ExecutionResult result = executeProcess(environment,
+            "validate", "--directory", repoRoot.toString(), "--check-dirty", "true");
+
+        assertNotEquals(0, result.exitCode);
+        assertTrue(result.stdout.contains("[DIRTY_WORKTREE]"));
+    }
+
+    @Test
+    void validateCheckDirtyIgnoresQuotedCustomMavenRepositoryPath(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = createRepository(tempDir, true);
+        commitAll(repoRoot);
+        Path cachedArtifact = repoRoot.resolve("local cache/repo [ci]/dependency.jar");
+        Files.createDirectories(cachedArtifact.getParent());
+        Files.write(cachedArtifact, "cached".getBytes(StandardCharsets.UTF_8));
+        Map<String, String> environment = new LinkedHashMap<String, String>();
+        environment.put("MAVEN_OPTS", "-Dmaven.repo.local=\"local cache/repo [ci]\"");
+
+        ExecutionResult result = executeProcess(environment,
+            "validate", "--directory", repoRoot.toString(), "--check-dirty", "true");
+
+        assertEquals(0, result.exitCode, result.stdout + result.stderr);
+    }
+
+    @Test
+    void validateCheckDirtyReportsModifiedTrackedMavenCacheFiles(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = createRepository(tempDir, false);
+        Path cachedArtifact = repoRoot.resolve(".m2/repository/io/example/dependency.jar");
+        Files.createDirectories(cachedArtifact.getParent());
+        Files.write(cachedArtifact, "original".getBytes(StandardCharsets.UTF_8));
+        commitAll(repoRoot);
+        Files.write(cachedArtifact, "modified".getBytes(StandardCharsets.UTF_8));
+        Map<String, String> environment = new LinkedHashMap<String, String>();
+        environment.put("MAVEN_OPTS", "-Dmaven.repo.local=.m2/repository");
+
+        ExecutionResult result = executeProcess(environment,
+            "validate", "--directory", repoRoot.toString(), "--check-dirty", "true");
+
+        assertNotEquals(0, result.exitCode);
+        assertTrue(result.stdout.contains("[DIRTY_WORKTREE]"));
+    }
+
+    @Test
     void statusHidesOtherTypeLabel(@TempDir Path tempDir) throws Exception {
         Path repoRoot = createRepository(tempDir, true);
         writeChangeset(repoRoot,
@@ -1660,6 +1728,9 @@ class JavaChangesCliTest {
         assertTrue(root.has("release_tag"));
         assertTrue(root.has("publish_release"));
         assertTrue(yaml.contains("JAVACHANGES_VERSION: \"1.4.1\""));
+        assertTrue(yaml.contains("git rev-parse --git-path info/exclude"));
+        assertTrue(yaml.contains("grep -Fqx '/.m2/repository/' \"${git_exclude_file}\""));
+        assertFalse(yaml.contains("'/.m2/' \"${git_exclude_file}\""));
         assertTrue(yaml.contains("run_javachanges()"));
         assertTrue(yaml.contains("mvn --batch-mode --non-recursive \"io.github.sonofmagic:javachanges:${JAVACHANGES_VERSION}:run\""));
         assertTrue(yaml.contains("run_javachanges \"gitlab-release-plan --write-plan-files false\""));
@@ -2204,6 +2275,28 @@ class JavaChangesCliTest {
         assertTrue(hasCheck(root, "Git", "worktree", "SKIPPED"));
         assertTrue(root.get("nextCommands").get(0).asText().contains("--allow-dirty true"));
         assertTrue(root.get("nextCommands").get(1).asText().contains("--allow-dirty true"));
+    }
+
+    @Test
+    void doctorPublishIgnoresMavenRepositoryCache(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = tempDir.resolve("repo");
+        Files.createDirectories(repoRoot);
+        Files.write(repoRoot.resolve("pom.xml"), centralReadyPom().getBytes(StandardCharsets.UTF_8));
+        Files.write(repoRoot.resolve(ReleaseProcessUtils.mavenWrapperPath()), "#!/bin/sh\n".getBytes(StandardCharsets.UTF_8));
+        commitAll(repoRoot);
+        Path cachedArtifact = repoRoot.resolve(".m2/repository/io/example/dependency.jar");
+        Files.createDirectories(cachedArtifact.getParent());
+        Files.write(cachedArtifact, "cached".getBytes(StandardCharsets.UTF_8));
+        Map<String, String> environment = publishDoctorEnv();
+        environment.put("MAVEN_OPTS", "-Dmaven.repo.local=.m2/repository");
+
+        ExecutionResult result = executeProcess(environment,
+            "doctor-publish", "--directory", repoRoot.toString(), "--format", "json");
+
+        assertEquals(0, result.exitCode, result.stdout + result.stderr);
+        JsonNode root = ReleaseJsonUtils.readTree(result.stdout);
+        assertTrue(root.get("ok").asBoolean());
+        assertTrue(hasCheck(root, "Git", "worktree", "OK"));
     }
 
     @Test

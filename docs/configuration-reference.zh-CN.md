@@ -331,6 +331,8 @@ export MAVEN_OPTS="-Dmaven.repo.local=.m2/repository"
 | `maven.repo.local` 是相对路径 | 相对目标仓库解析 |
 | `maven.repo.local` 是绝对路径 | 直接使用该路径 |
 
+发布、doctor 和 `validate --check-dirty` 会把实际配置的 Maven 本地仓库视为缓存目录。只有该目录下不存在 Git 跟踪文件时，脏工作区检查才会排除它；`.m2/settings.xml`、跟踪文件修改和其他未跟踪文件仍会被检查。GitLab 生成模板也会将 `.m2/repository` 加入当前 checkout 的 `.git/info/exclude`，避免缓存被 Git 状态误报。
+
 ### 8.3 snapshot 版本模式
 
 `javachanges` 现在支持两种 snapshot 发布模式：

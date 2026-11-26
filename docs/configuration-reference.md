@@ -335,6 +335,8 @@ Effect:
 | relative `maven.repo.local` | resolved relative to the target repo |
 | absolute `maven.repo.local` | used as-is |
 
+`publish`, `doctor-publish`, and `validate --check-dirty` treat the configured Maven local repository as a cache directory. The dirty-worktree check excludes it only when it contains no Git-tracked files. Other untracked files, tracked changes, and `.m2/settings.xml` remain visible to the check. The generated GitLab template also adds `.m2/repository` to the checkout's `.git/info/exclude` so restored cache files do not appear as worktree changes.
+
 ### 8.3 Snapshot version modes
 
 `javachanges` supports two snapshot publish modes:

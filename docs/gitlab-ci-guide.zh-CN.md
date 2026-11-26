@@ -177,6 +177,13 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   JAVACHANGES_VERSION: "__JAVACHANGES_LATEST_RELEASE_VERSION__"
 
+before_script:
+  - |
+    git_exclude_file="$(git rev-parse --git-path info/exclude)"
+    mkdir -p "$(dirname "${git_exclude_file}")"
+    touch "${git_exclude_file}"
+    grep -Fqx '/.m2/repository/' "${git_exclude_file}" || printf '%s\n' '/.m2/repository/' >> "${git_exclude_file}"
+
 verify:
   stage: verify
   script:
@@ -482,6 +489,8 @@ cache:
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 ```
+
+生成的模板会将缓存目录加入 Git 的本地工作区排除列表。`javachanges` 仍会检查 tracked 文件修改、`.m2/settings.xml` 和其他未跟踪文件。
 
 它主要改善的是：
 
