@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.14.0 - 2026-11-26
+
+### Minor Changes
+
+- Derive snapshot publish versions from pending changesets when a repository is still on a release-qualified version, and support configurable release artifact suffixes such as `-RELEASE`. (packages: javachanges)
+
+### Patch Changes
+
+- 脏工作区检查会忽略配置的 Maven 本地仓库中的未跟踪缓存文件，同时继续检测已跟踪文件修改和其他未跟踪文件。 (packages: javachanges)
+
 ## 1.13.0 - 2026-07-23
 
 ### Minor Changes
