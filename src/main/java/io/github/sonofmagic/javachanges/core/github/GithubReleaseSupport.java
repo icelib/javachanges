@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public final class GithubReleaseSupport extends AbstractReleaseAutomationSupport {
     private final GithubReleaseRuntime runtime;
@@ -180,7 +181,7 @@ public final class GithubReleaseSupport extends AbstractReleaseAutomationSupport
         } else {
             String headSubject = runtime.headSubject();
             String expectedSubject = "chore(release): apply changesets for " + tagName;
-            if (request.requireReleaseApplyCommit && !expectedSubject.equals(headSubject)) {
+            if (request.requireReleaseApplyCommit && !isReleaseApplyCommit(expectedSubject, headSubject)) {
                 shouldPublish = false;
                 reason = ReleaseMessages.githubHeadNotReleaseApplyCommitSkipReason(tagName);
             } else {
@@ -202,6 +203,12 @@ public final class GithubReleaseSupport extends AbstractReleaseAutomationSupport
             appendGithubOutputs(githubOutputFile, outputs);
         }
         AutomationJsonSupport.print(out, textOutput, report, reason);
+    }
+
+    private static boolean isReleaseApplyCommit(String expectedSubject, String headSubject) {
+        return expectedSubject.equals(headSubject)
+            || (headSubject != null
+                && Pattern.matches(Pattern.quote(expectedSubject) + " \\(#[0-9]+\\)", headSubject));
     }
 
     public void syncReleaseFromPlan(GithubReleasePublishRequest request) throws IOException, InterruptedException {
