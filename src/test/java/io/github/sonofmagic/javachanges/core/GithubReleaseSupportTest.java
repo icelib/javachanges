@@ -323,6 +323,28 @@ class GithubReleaseSupportTest {
     }
 
     @Test
+    void publishStateContinuesForGithubMergeReleaseApplyCommitWithPrNumber(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = createRepository(tempDir);
+        Files.delete(repoRoot.resolve(".changesets").resolve("minor-release.md"));
+        Files.write(repoRoot.resolve("pom.xml"), singleModulePom("1.2.0-SNAPSHOT").getBytes(StandardCharsets.UTF_8));
+        Path githubOutput = tempDir.resolve("github-output.txt");
+        RecordingRuntime runtime = new RecordingRuntime(repoRoot);
+        runtime.headSha = "abc1234";
+        runtime.headSubject = "chore(release): apply changesets for v1.2.0 (#27)";
+
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("current-sha", "abc1234");
+        options.put("fresh", "true");
+        options.put("github-output-file", githubOutput.toString());
+
+        new GithubReleaseSupport(repoRoot, new PrintStream(new ByteArrayOutputStream(), true), runtime)
+            .publishState(GithubReleasePublishStateRequest.fromOptions(options));
+
+        String outputs = new String(Files.readAllBytes(githubOutput), StandardCharsets.UTF_8);
+        assertTrue(outputs.contains("should_publish=true"));
+    }
+
+    @Test
     void publishStateSkipsWhenHeadIsNotReleaseApplyCommit(@TempDir Path tempDir) throws Exception {
         Path repoRoot = createRepository(tempDir);
         Files.delete(repoRoot.resolve(".changesets").resolve("minor-release.md"));

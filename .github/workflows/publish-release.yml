@@ -33,10 +33,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout merged release commit
+      - name: Checkout release tooling
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.workflow_run.head_sha }}
+          path: release-tooling
+          fetch-depth: 0
+
+      - name: Checkout release source
         uses: actions/checkout@v5
         with:
           ref: ${{ github.event_name == 'workflow_dispatch' && inputs.release_commit_sha || github.event.workflow_run.head_sha }}
+          path: release-source
           fetch-depth: 0
 
       - name: Set up Java 8, Maven Central auth, and GPG
@@ -49,7 +57,7 @@ jobs:
           distribution: corretto
           java-version: '8'
           cache: maven
-          cache-dependency-path: pom.xml
+          cache-dependency-path: release-tooling/pom.xml
           server-id: central
           server-username: MAVEN_CENTRAL_USERNAME
           server-password: MAVEN_CENTRAL_PASSWORD
@@ -57,20 +65,25 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Build CLI
+        working-directory: release-tooling
         run: ./mvnw -B -DskipTests compile
 
       - name: Resolve publish state
         id: release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_DIRECTORY: ${{ github.workspace }}/release-source
+          RELEASE_COMMIT_SHA: ${{ github.event_name == 'workflow_dispatch' && inputs.release_commit_sha || github.event.workflow_run.head_sha }}
+        working-directory: release-tooling
         run: >
           ./mvnw -B -DskipTests exec:java
-          -Dexec.args="github-release-publish-state --directory $GITHUB_WORKSPACE --fresh true --current-sha $(git rev-parse HEAD)"
+          -Dexec.args="github-release-publish-state --directory $RELEASE_DIRECTORY --fresh true --current-sha $RELEASE_COMMIT_SHA"
 
       - name: Verify release build before tagging
         if: steps.release.outputs.should_publish == 'true'
         env:
           RELEASE_VERSION: ${{ steps.release.outputs.release_version }}
+        working-directory: release-source
         run: |
           ./mvnw -B \
             -Drevision="${RELEASE_VERSION}" \
@@ -78,17 +91,23 @@ jobs:
 
       - name: Ensure signing public key is discoverable
         if: steps.release.outputs.should_publish == 'true'
+        working-directory: release-tooling
+        env:
+          RELEASE_DIRECTORY: ${{ github.workspace }}/release-source
         run: >
           ./mvnw -B -DskipTests exec:java
-          -Dexec.args="ensure-gpg-public-key --directory $GITHUB_WORKSPACE"
+          -Dexec.args="ensure-gpg-public-key --directory $RELEASE_DIRECTORY"
 
       - name: Create and push release tag
         if: steps.release.outputs.should_publish == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_DIRECTORY: ${{ github.workspace }}/release-source
+          RELEASE_COMMIT_SHA: ${{ github.event_name == 'workflow_dispatch' && inputs.release_commit_sha || github.event.workflow_run.head_sha }}
+        working-directory: release-tooling
         run: >
           ./mvnw -B -DskipTests exec:java
-          -Dexec.args="github-tag-from-plan --directory $GITHUB_WORKSPACE --fresh true --current-sha $(git rev-parse HEAD) --execute true"
+          -Dexec.args="github-tag-from-plan --directory $RELEASE_DIRECTORY --fresh true --current-sha $RELEASE_COMMIT_SHA --execute true"
 
       - name: Publish to Maven Central
         if: steps.release.outputs.should_publish == 'true'
@@ -97,6 +116,7 @@ jobs:
           MAVEN_CENTRAL_PASSWORD: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
           RELEASE_VERSION: ${{ steps.release.outputs.release_version }}
+        working-directory: release-source
         run: |
           ./mvnw -B \
             -Pcentral-publish \
@@ -109,6 +129,8 @@ jobs:
         if: steps.release.outputs.should_publish == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_DIRECTORY: ${{ github.workspace }}/release-source
+        working-directory: release-tooling
         run: >
           ./mvnw -B -DskipTests exec:java
-          -Dexec.args="github-release-from-plan --directory $GITHUB_WORKSPACE --fresh true --release-notes-file target/release-notes.md --execute true"
+          -Dexec.args="github-release-from-plan --directory $RELEASE_DIRECTORY --fresh true --release-notes-file target/release-notes.md --execute true"
