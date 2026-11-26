@@ -181,6 +181,13 @@ variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
   JAVACHANGES_VERSION: "__JAVACHANGES_LATEST_RELEASE_VERSION__"
 
+before_script:
+  - |
+    git_exclude_file="$(git rev-parse --git-path info/exclude)"
+    mkdir -p "$(dirname "${git_exclude_file}")"
+    touch "${git_exclude_file}"
+    grep -Fqx '/.m2/repository/' "${git_exclude_file}" || printf '%s\n' '/.m2/repository/' >> "${git_exclude_file}"
+
 verify:
   stage: verify
   script:
@@ -496,6 +503,8 @@ Recommended runtime option:
 variables:
   MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
 ```
+
+The generated template excludes the cache directory from Git's local worktree view. `javachanges` still reports tracked changes, `.m2/settings.xml`, and other untracked files.
 
 What this improves:
 
