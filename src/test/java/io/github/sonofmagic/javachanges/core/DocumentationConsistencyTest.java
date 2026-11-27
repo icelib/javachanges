@@ -1,5 +1,6 @@
 package io.github.sonofmagic.javachanges.core;
 
+import io.github.sonofmagic.javachanges.core.config.ChangesetConfigSupport;
 import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -111,11 +112,13 @@ class DocumentationConsistencyTest {
 
     private static void assertReadmeSnapshotExamplesMatch(Path readme, String revision) throws Exception {
         String content = new String(Files.readAllBytes(readme), StandardCharsets.UTF_8);
+        String snapshotRevision = ReleaseVersionUtils.semanticVersion(
+            revision, ChangesetConfigSupport.load(readme.getParent()).releaseVersionSuffix()) + "-SNAPSHOT";
         Matcher matcher = SNAPSHOT_PLUGIN_COORDINATE.matcher(content);
         int count = 0;
         while (matcher.find()) {
             count++;
-            assertEquals(revision, matcher.group(1), readme + " contains stale snapshot plugin version");
+            assertEquals(snapshotRevision, matcher.group(1), readme + " contains stale snapshot plugin version");
         }
         assertTrue(count > 0, readme + " should include at least one snapshot plugin example");
 
@@ -124,7 +127,7 @@ class DocumentationConsistencyTest {
         while (matcher.find()) {
             count++;
             String snapshotVersion = matcher.group(1) != null ? matcher.group(1) : matcher.group(2);
-            assertEquals(revision, snapshotVersion, readme + " contains stale current snapshot version");
+            assertEquals(snapshotRevision, snapshotVersion, readme + " contains stale current snapshot version");
         }
         assertTrue(count > 0, readme + " should include at least one current snapshot reference");
     }
