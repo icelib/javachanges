@@ -70,6 +70,7 @@ Rules:
   "baseBranch": "main",
   "releaseBranch": "changeset-release/main",
   "snapshotBranch": "snapshot",
+  "releasePlanVersionMode": "release",
   "snapshotVersionMode": "plain",
   "releaseVersionSuffix": "-RELEASE",
   "tagStrategy": "whole-repo"
@@ -89,6 +90,7 @@ Supported fields:
 | `baseBranch` | Default base branch for release-plan automation | `main` |
 | `releaseBranch` | Default generated release branch name | `changeset-release/<baseBranch>` |
 | `snapshotBranch` | Conventional branch used for snapshot publishing | `snapshot` |
+| `releasePlanVersionMode` | Root build version written when applying a release plan: `snapshot` or `release` | `release` |
 | `snapshotVersionMode` | Snapshot publish strategy: `stamped` or `plain` | `stamped` |
 | `releaseVersionSuffix` | Optional suffix for Maven/Gradle release artifact versions, for example `-RELEASE` | empty |
 | `tagStrategy` | Release tag strategy: `whole-repo` or `per-module` | `whole-repo` |
@@ -96,6 +98,7 @@ Supported fields:
 Current behavior:
 
 - GitLab release-plan defaults read `baseBranch` and `releaseBranch` from this file when CLI flags and CI variables are absent
+- applying a release plan writes the release version with `releaseVersionSuffix` by default; set `releasePlanVersionMode: "snapshot"` to keep the old next-snapshot behavior
 - GitLab tag creation reads `baseBranch` and `releaseBranch` from this file to avoid tagging from the release branch and other non-base branches
 - `preflight` and `publish` read `snapshotBranch` from this file and default to snapshot mode when the current CI branch matches it
 - `preflight` and `publish` also read `snapshotVersionMode`; CLI `--snapshot-version-mode` overrides the config file

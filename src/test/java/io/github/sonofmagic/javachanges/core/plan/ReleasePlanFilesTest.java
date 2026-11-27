@@ -10,6 +10,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -40,11 +41,63 @@ class ReleasePlanFilesTest {
         ReleasePlan plan = new ReleasePlanner(repoRoot).plan();
         ReleasePlanFiles.applyPlan(repoRoot, plan, false);
 
+        assertEquals("1.0.1", BuildModelSupport.readRevision(repoRoot));
         assertReadmeSnapshot(repoRoot.resolve("README.md"));
         assertReadmeSnapshot(repoRoot.resolve("README.zh-CN.md"));
         List<String> addPaths = Arrays.asList(BuildModelSupport.releasePlanGitAddPaths(repoRoot));
         assertTrue(addPaths.contains("README.md"));
         assertTrue(addPaths.contains("README.zh-CN.md"));
+    }
+
+    @Test
+    void applyPlanWritesReleaseVersionWhenConfigured(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = tempDir.resolve("repo");
+        Path changesetsDir = repoRoot.resolve(".changesets");
+        Files.createDirectories(changesetsDir);
+        Files.write(repoRoot.resolve("pom.xml"), singleModulePom("1.0.0-SNAPSHOT").getBytes(StandardCharsets.UTF_8));
+        Files.write(repoRoot.resolve("CHANGELOG.md"), "# Changelog\n\n".getBytes(StandardCharsets.UTF_8));
+        Files.write(changesetsDir.resolve("config.jsonc"), (
+            "{\n" +
+                "  \"releasePlanVersionMode\": \"release\",\n" +
+                "  \"releaseVersionSuffix\": \"-RELEASE\"\n" +
+                "}\n").getBytes(StandardCharsets.UTF_8));
+        Files.write(changesetsDir.resolve("fix-release-version.md"), (
+            "---\n" +
+                "\"javachanges\": patch\n" +
+                "---\n\n" +
+                "Write the release version to the root build file.\n"
+        ).getBytes(StandardCharsets.UTF_8));
+
+        ReleasePlan plan = new ReleasePlanner(repoRoot).plan();
+        ReleasePlanFiles.applyPlan(repoRoot, plan, false);
+
+        assertEquals("1.0.1", plan.getReleaseVersion());
+        assertEquals("1.0.1-SNAPSHOT", plan.getNextSnapshotVersion());
+        assertEquals("1.0.1-RELEASE", BuildModelSupport.readRevision(repoRoot));
+    }
+
+    @Test
+    void applyPlanKeepsSnapshotVersionWhenLegacyModeIsConfigured(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = tempDir.resolve("repo");
+        Path changesetsDir = repoRoot.resolve(".changesets");
+        Files.createDirectories(changesetsDir);
+        Files.write(repoRoot.resolve("pom.xml"), singleModulePom("1.0.0-SNAPSHOT").getBytes(StandardCharsets.UTF_8));
+        Files.write(repoRoot.resolve("CHANGELOG.md"), "# Changelog\n\n".getBytes(StandardCharsets.UTF_8));
+        Files.write(changesetsDir.resolve("config.jsonc"), (
+            "{\n" +
+                "  \"releasePlanVersionMode\": \"snapshot\"\n" +
+                "}\n").getBytes(StandardCharsets.UTF_8));
+        Files.write(changesetsDir.resolve("fix-release-version.md"), (
+            "---\n" +
+                "\"javachanges\": patch\n" +
+                "---\n\n" +
+                "Keep the legacy snapshot release plan behavior.\n"
+        ).getBytes(StandardCharsets.UTF_8));
+
+        ReleasePlan plan = new ReleasePlanner(repoRoot).plan();
+        ReleasePlanFiles.applyPlan(repoRoot, plan, false);
+
+        assertEquals("1.0.1-SNAPSHOT", BuildModelSupport.readRevision(repoRoot));
     }
 
     private static void assertReadmeSnapshot(Path path) throws Exception {

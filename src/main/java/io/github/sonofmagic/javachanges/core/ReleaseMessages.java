@@ -408,6 +408,10 @@ public final class ReleaseMessages {
         return message("core.unsupportedSnapshotVersionMode", value);
     }
 
+    public static String unsupportedReleasePlanVersionMode(String value) {
+        return message("core.unsupportedReleasePlanVersionMode", value);
+    }
+
     public static String unsupportedSettingsMode(String value) {
         return message("core.unsupportedSettingsMode", value);
     }
