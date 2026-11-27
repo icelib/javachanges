@@ -79,6 +79,25 @@ class GitlabReleaseSupportTest {
     }
 
     @Test
+    void planMergeRequestAppliesConfiguredReleaseVersionToRootBuildFile(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = createRepository(tempDir);
+        Files.write(repoRoot.resolve(".changesets").resolve("config.jsonc"), (
+            "{\n" +
+                "  \"releasePlanVersionMode\": \"release\",\n" +
+                "  \"releaseVersionSuffix\": \"-RELEASE\"\n" +
+                "}\n").getBytes(StandardCharsets.UTF_8));
+        RecordingRuntime runtime = new RecordingRuntime(repoRoot);
+        runtime.noStagedChanges = false;
+        FakeGitlabApiClient api = new FakeGitlabApiClient();
+        api.remoteUrl = "https://bot:token@example.com/group/repo.git";
+
+        new GitlabReleaseSupport(repoRoot, new PrintStream(new ByteArrayOutputStream(), true), runtime, api)
+            .planMergeRequest(planRequest());
+
+        assertEquals("1.2.0-RELEASE", BuildModelSupport.readRevision(repoRoot));
+    }
+
+    @Test
     void planMergeRequestUpdatesExistingMrAndPushesWithoutLeaseWhenRemoteBranchDoesNotExist(@TempDir Path tempDir)
         throws Exception {
         Path repoRoot = createRepository(tempDir);
@@ -367,6 +386,25 @@ class GitlabReleaseSupportTest {
                 .tagFromReleasePlan(GitlabTagRequest.fromOptions(tagOptions())));
 
         assertTrue(error.getMessage().contains("Fresh release metadata cannot infer per-module release targets"));
+    }
+
+    @Test
+    void tagFromReleasePlanFreshFallbackRemovesConfiguredReleaseSuffix(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = createAppliedReleaseRepository(tempDir, "1.2.0-RELEASE");
+        Files.write(
+            repoRoot.resolve(".changesets").resolve("config.jsonc"),
+            "{\n  \"releaseVersionSuffix\": \"-RELEASE\"\n}\n".getBytes(StandardCharsets.UTF_8)
+        );
+        RecordingRuntime runtime = new RecordingRuntime(repoRoot);
+        runtime.changedPaths.put("pom.xml", Boolean.TRUE);
+        FakeGitlabApiClient api = new FakeGitlabApiClient();
+        api.remoteUrl = "https://bot:token@example.com/group/repo.git";
+
+        new GitlabReleaseSupport(repoRoot, new PrintStream(new ByteArrayOutputStream(), true), runtime, api)
+            .tagFromReleasePlan(GitlabTagRequest.fromOptions(tagOptions()));
+
+        assertEquals(1, runtime.createdTags.size());
+        assertEquals("tag v1.2.0 abc222", runtime.createdTags.get(0));
     }
 
     private static Path createRepository(Path tempDir) throws IOException {

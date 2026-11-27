@@ -718,7 +718,7 @@ class JavaChangesCliTest {
 
         assertEquals(0, result.exitCode);
         String pom = read(repoRoot.resolve("pom.xml"));
-        assertTrue(pom.contains("<version>1.2.0-SNAPSHOT</version>"));
+        assertTrue(pom.contains("<version>1.2.0</version>"));
         assertFalse(pom.contains("<revision>"));
     }
 
@@ -1122,7 +1122,7 @@ class JavaChangesCliTest {
         assertTrue(read(repoRoot.resolve("CHANGELOG.md")).contains("(packages: fixture-app)"));
         assertFalse(read(repoRoot.resolve("CHANGELOG.md")).contains("### Other"));
         assertEquals(1, countOccurrences(read(repoRoot.resolve("CHANGELOG.md")), "automate self release"));
-        assertTrue(read(repoRoot.resolve("pom.xml")).contains("<revision>1.2.0-SNAPSHOT</revision>"));
+        assertTrue(read(repoRoot.resolve("pom.xml")).contains("<revision>1.2.0</revision>"));
         assertTrue(Files.exists(repoRoot.resolve(".changesets").resolve("release-plan.json")));
         assertTrue(Files.exists(repoRoot.resolve(".changesets").resolve("release-plan.md")));
         assertTrue(Files.exists(repoRoot.resolve(".changesets").resolve("release-plan-backup.json")));
@@ -1151,7 +1151,7 @@ class JavaChangesCliTest {
         ExecutionResult applyResult = execute("plan", "--directory", repoRoot.toString(), "--apply", "true");
         assertEquals(0, applyResult.exitCode);
         assertFalse(Files.exists(changesetPath));
-        assertTrue(read(repoRoot.resolve("pom.xml")).contains("<revision>1.2.0-SNAPSHOT</revision>"));
+        assertTrue(read(repoRoot.resolve("pom.xml")).contains("<revision>1.2.0</revision>"));
         assertTrue(Files.exists(repoRoot.resolve(".changesets").resolve("release-plan.json")));
 
         ExecutionResult restoreResult = execute("plan", "--directory", repoRoot.toString(), "--restore", "true");
@@ -1190,7 +1190,7 @@ class JavaChangesCliTest {
         assertEquals("1.2.0", root.get("plan").get("releaseVersion").asText());
         assertEquals("javachanges plan --directory " + repoRoot + " --restore true",
             root.get("nextCommands").get(0).asText());
-        assertTrue(read(repoRoot.resolve("pom.xml")).contains("<revision>1.2.0-SNAPSHOT</revision>"));
+        assertTrue(read(repoRoot.resolve("pom.xml")).contains("<revision>1.2.0</revision>"));
         assertFalse(Files.exists(repoRoot.resolve(".changesets").resolve("minor-release.md")));
     }
 
@@ -1259,7 +1259,7 @@ class JavaChangesCliTest {
         assertEquals(0, result.exitCode);
         assertTrue(result.stdout.contains("Applied release plan for v1.2.0"));
         assertTrue(result.stdout.contains("git -C " + repoRoot + " add gradle.properties CHANGELOG.md .changesets"));
-        assertTrue(read(repoRoot.resolve("gradle.properties")).contains("version=1.2.0-SNAPSHOT"));
+        assertTrue(read(repoRoot.resolve("gradle.properties")).contains("version=1.2.0"));
         assertTrue(read(repoRoot.resolve("CHANGELOG.md")).contains("support gradle release plans"));
         assertFalse(Files.exists(repoRoot.resolve(".changesets").resolve("minor-release.md")));
     }

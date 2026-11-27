@@ -2,8 +2,11 @@ package io.github.sonofmagic.javachanges.core.plan;
 
 import io.github.sonofmagic.javachanges.core.ChangesetPaths;
 import io.github.sonofmagic.javachanges.core.BuildModelSupport;
+import io.github.sonofmagic.javachanges.core.ReleasePlanVersionMode;
 import io.github.sonofmagic.javachanges.core.ReleaseModuleUtils;
+import io.github.sonofmagic.javachanges.core.ReleaseVersionUtils;
 import io.github.sonofmagic.javachanges.core.changeset.Changeset;
+import io.github.sonofmagic.javachanges.core.config.ChangesetConfigSupport;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -32,7 +35,12 @@ final class ReleasePlanFiles {
     }
 
     static void applyPlan(Path repoRoot, ReleasePlan plan, boolean writeReleasePlanFiles) throws IOException {
-        updateRootRevision(repoRoot, plan.getNextSnapshotVersion());
+        ChangesetConfigSupport.ChangesetConfig config = ChangesetConfigSupport.load(repoRoot);
+        String appliedVersion = plan.hasPendingChangesets()
+            && config.releasePlanVersionMode() == ReleasePlanVersionMode.RELEASE
+            ? ReleaseVersionUtils.releasePublishVersion(plan.getReleaseVersion(), config.releaseVersionSuffix())
+            : plan.getNextSnapshotVersion();
+        updateRootRevision(repoRoot, appliedVersion);
         updateJavachangesSnapshotDocumentation(repoRoot, plan.getNextSnapshotVersion());
         updateChangelog(repoRoot.resolve("CHANGELOG.md"), plan);
         Path releasePlanJson = repoRoot.resolve(ChangesetPaths.DIR).resolve(ChangesetPaths.RELEASE_PLAN_JSON);

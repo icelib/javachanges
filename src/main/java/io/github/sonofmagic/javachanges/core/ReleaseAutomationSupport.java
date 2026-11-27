@@ -45,8 +45,9 @@ public final class ReleaseAutomationSupport {
         if (plan.hasPendingChangesets()) {
             return descriptorFromPlan(plan);
         }
-        String releaseVersion = ReleaseTextUtils.stripSnapshot(BuildModelSupport.readRevision(repoRoot));
         ChangesetConfigSupport.ChangesetConfig config = RepoFiles.readChangesetConfig(repoRoot);
+        String releaseVersion = ReleaseVersionUtils.semanticVersion(
+            BuildModelSupport.readRevision(repoRoot), config.releaseVersionSuffix());
         if (config.tagStrategy() == ReleaseTagStrategy.PER_MODULE) {
             throw new IllegalStateException(ReleaseMessages.freshMetadataCannotInferPerModuleTargets());
         }

@@ -413,6 +413,7 @@ release_plan_mr:
 补充说明：
 
 - `gitlab-release-plan` 会把 `changeset-release/<target-branch>` 视为自动化拥有的分支。
+- `releasePlanVersionMode` 控制 release MR 写入根构建文件的版本；默认值为 `release`，会写入带 `releaseVersionSuffix` 的正式版本，例如 `1.2.5-RELEASE`。只有旧流程才需要配置为 `snapshot`。
 - 如果远端分支还在，但当前没有匹配的 open MR，命令仍会刷新这个分支，然后重新创建 MR。
 - 这样默认分支上的重复 pipeline 可以保持幂等，不需要手工删除远端 release branch。
 

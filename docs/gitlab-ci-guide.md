@@ -427,6 +427,7 @@ Important behavior:
 Notes:
 
 - `gitlab-release-plan` treats `changeset-release/<target-branch>` as an automation-owned branch.
+- `releasePlanVersionMode` controls the root build version written by the release MR; its default is `release`, which keeps the target branch on `releaseVersionSuffix` such as `1.2.5-RELEASE`. Set it to `snapshot` only for the legacy workflow.
 - If the remote branch exists but no open MR matches it, the command still refreshes that branch and then creates a new MR.
 - This keeps repeated default-branch pipelines idempotent without requiring manual branch deletion.
 

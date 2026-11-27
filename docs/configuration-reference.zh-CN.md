@@ -66,6 +66,7 @@ Improve CLI parsing and release planning.
   "baseBranch": "main",
   "releaseBranch": "changeset-release/main",
   "snapshotBranch": "snapshot",
+  "releasePlanVersionMode": "release",
   "snapshotVersionMode": "plain",
   "releaseVersionSuffix": "-RELEASE",
   "tagStrategy": "whole-repo"
@@ -85,6 +86,7 @@ Improve CLI parsing and release planning.
 | `baseBranch` | release-plan 自动化默认基线分支 | `main` |
 | `releaseBranch` | 默认生成的 release 分支名 | `changeset-release/<baseBranch>` |
 | `snapshotBranch` | 约定用于 snapshot 发布的分支名 | `snapshot` |
+| `releasePlanVersionMode` | 应用 release plan 时写入根构建文件的版本：`snapshot` 或 `release` | `release` |
 | `snapshotVersionMode` | snapshot 发布策略：`stamped` 或 `plain` | `stamped` |
 | `releaseVersionSuffix` | Maven/Gradle 正式产物的可选版本后缀，例如 `-RELEASE` | 空字符串 |
 | `tagStrategy` | release tag 策略：`whole-repo` 或 `per-module` | `whole-repo` |
@@ -92,6 +94,7 @@ Improve CLI parsing and release planning.
 当前行为：
 
 - 当 CLI 参数和 CI 变量都没显式传入时，GitLab release-plan 默认值会从这个文件读取 `baseBranch` 和 `releaseBranch`
+- 应用 release plan 时默认写入带 `releaseVersionSuffix` 的正式版本；设置 `releasePlanVersionMode: "snapshot"` 可以保留旧的 next snapshot 行为
 - GitLab tag 命令也会读取这里的 `baseBranch` 和 `releaseBranch`，避免在 release branch 或其他非基线分支误打 tag
 - `preflight` 和 `publish` 会读取这里的 `snapshotBranch`，当前 CI 分支命中时自动进入 snapshot 模式
 - `preflight` 和 `publish` 也会读取这里的 `snapshotVersionMode`；如果 CLI 显式传了 `--snapshot-version-mode`，则以 CLI 为准

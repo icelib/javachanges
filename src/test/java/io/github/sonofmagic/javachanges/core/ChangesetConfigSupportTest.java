@@ -28,6 +28,7 @@ class ChangesetConfigSupportTest {
         assertEquals("main", config.baseBranch());
         assertEquals("changeset-release/main", config.releaseBranch());
         assertEquals("snapshot", config.snapshotBranch());
+        assertEquals(ReleasePlanVersionMode.RELEASE, config.releasePlanVersionMode());
         assertEquals(SnapshotVersionMode.STAMPED, config.snapshotVersionMode());
         assertEquals(ReleaseTagStrategy.WHOLE_REPO, config.tagStrategy());
         assertEquals("", config.releaseVersionSuffix());
@@ -43,6 +44,7 @@ class ChangesetConfigSupportTest {
                 "  \"baseBranch\": \"develop\",\n" +
                 "  \"releaseBranch\": \"changeset-release/develop\",\n" +
                 "  \"snapshotBranch\": \"snapshot-dev\",\n" +
+                "  \"releasePlanVersionMode\": \"release\",\n" +
                 "  \"snapshotVersionMode\": \"plain\",\n" +
                 "  \"releaseVersionSuffix\": \"-RELEASE\",\n" +
                 "  \"tagStrategy\": \"per-module\"\n" +
@@ -53,15 +55,32 @@ class ChangesetConfigSupportTest {
         assertEquals("develop", config.baseBranch());
         assertEquals("changeset-release/develop", config.releaseBranch());
         assertEquals("snapshot-dev", config.snapshotBranch());
+        assertEquals(ReleasePlanVersionMode.RELEASE, config.releasePlanVersionMode());
         assertEquals(SnapshotVersionMode.PLAIN, config.snapshotVersionMode());
         assertEquals(ReleaseTagStrategy.PER_MODULE, config.tagStrategy());
         assertEquals("-RELEASE", config.releaseVersionSuffix());
         assertTrue(config.hasBaseBranch());
         assertTrue(config.hasReleaseBranch());
         assertTrue(config.hasSnapshotBranch());
+        assertTrue(config.hasReleasePlanVersionMode());
         assertTrue(config.hasSnapshotVersionMode());
         assertTrue(config.hasTagStrategy());
         assertTrue(config.hasReleaseVersionSuffix());
+    }
+
+    @Test
+    void rejectsUnsupportedReleasePlanVersionMode(@TempDir Path tempDir) throws Exception {
+        Path repoRoot = tempDir.resolve("repo");
+        Path changesetsDir = repoRoot.resolve(".changesets");
+        Files.createDirectories(changesetsDir);
+        Files.write(changesetsDir.resolve("config.json"), (
+            "{\"releasePlanVersionMode\": \"next\"}\n").getBytes(StandardCharsets.UTF_8));
+
+        IllegalArgumentException exception = org.junit.jupiter.api.Assertions.assertThrows(
+            IllegalArgumentException.class,
+            () -> ChangesetConfigSupport.load(repoRoot));
+
+        assertTrue(exception.getMessage().contains("release plan version mode"));
     }
 
     @Test
@@ -134,6 +153,7 @@ class ChangesetConfigSupportTest {
         assertFalse(config.hasBaseBranch());
         assertFalse(config.hasReleaseBranch());
         assertFalse(config.hasSnapshotBranch());
+        assertFalse(config.hasReleasePlanVersionMode());
         assertFalse(config.hasSnapshotVersionMode());
         assertFalse(config.hasTagStrategy());
         assertFalse(config.hasReleaseVersionSuffix());
